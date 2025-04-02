@@ -8,6 +8,7 @@ Safe Haven is being developed by making use of Software such as:
 - RPi.GPIO
 - Twilio API
 - PyAudio
+- Playsound
 
 At the same, we are using different hardware, which includes:
 
