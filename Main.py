@@ -6,14 +6,14 @@
 
 import RPi.GPIO as GPIO # Import the GPIO library for Raspberry Pi
 import time # Import time library for measuring time
-from playsound import playsound # Import playsound library for playing alarm sound
+#from playsound import playsound # Import playsound library for playing alarm sound
 
 # GPIO Pin Setup (These are just example GPIO numbers, we will adjust them as needed)
 MOTION_SENSOR = 17
 BUZZER = 18
 BUTTON = 27
-RED_LED = 22
-GREEN_LED = 23
+RED_LED = 23
+GREEN_LED = 22
 ULTRASONIC_1_TRIGGER = 5
 ULTRASONIC_1_ECHO = 6
 ULTRASONIC_2_TRIGGER = 13
@@ -49,7 +49,7 @@ def security_mode():
 
 def alarm():
     GPIO.output(BUZZER, GPIO.HIGH)
-    playsound("alarm.mp3") # Play alarm sound (We will need to add the sound file later, with the name "alarm.mp3")
+    #playsound("alarm.mp3") # Play alarm sound (We will need to add the sound file later, with the name "alarm.mp3")
     time.sleep(2) # Alarm duration for now, we can adjust it later
     GPIO.output(BUZZER, GPIO.LOW)
 
