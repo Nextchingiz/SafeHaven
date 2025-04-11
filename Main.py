@@ -4,11 +4,11 @@
 # Description: SafeHaven
 ##############################################################
 
-import RPi.GPIO as GPIO # Import the GPIO library for Raspberry Pi
-import time # Import time library for measuring time
-from playsound import playsound # Import playsound library for playing alarm sound
+import RPi.GPIO as GPIO
+import time
+#from playsound import playsound
 
-# GPIO Pin Setup (These are just example GPIO numbers, we will adjust them as needed)
+# GPIO Pins
 MOTION_SENSOR = 17
 BUZZER = 18
 BUTTON = 27
@@ -16,12 +16,12 @@ RED_LED = 22
 GREEN_LED = 23
 ULTRASONIC_1_TRIGGER = 5
 ULTRASONIC_1_ECHO = 6
-ULTRASONIC_2_TRIGGER = 13
-ULTRASONIC_2_ECHO = 19
 
-home_mode = True  # Start in home mode by default
+home_mode = True  # System starts in home mode ALWAYS
+message_displayed = False  # Makes sure startup message shows once, ONLY ONCE
+security_message_displayed = False  # akes sure security message shows once, ONLY ONCE
 
-# Setup GPIO
+# GPIO Setup
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(MOTION_SENSOR, GPIO.IN)
 GPIO.setup(BUZZER, GPIO.OUT)
@@ -30,72 +30,117 @@ GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
 GPIO.setup(ULTRASONIC_1_TRIGGER, GPIO.OUT)
 GPIO.setup(ULTRASONIC_1_ECHO, GPIO.IN)
-GPIO.setup(ULTRASONIC_2_TRIGGER, GPIO.OUT)
-GPIO.setup(ULTRASONIC_2_ECHO, GPIO.IN)
+
+# Turn on green LED (home mode) ALWAYS when sttarting the program
+GPIO.output(RED_LED, False)
+GPIO.output(GREEN_LED, True)
 
 def security_mode():
-    global home_mode
-    print("Press and hold the button for 5 seconds to activate security mode")
+    """
+    Turns on security mode if the button is held for 5 seconds.
+    """
+    global home_mode, security_message_displayed
     start_time = time.time()
-    while GPIO.input(BUTTON) == 0:
-        if time.time() - start_time >= 5: # Button pressed for 5 seconds, if not, no action
-            print("Security mode activation in 20 seconds")
-            time.sleep(20) # Wait for 20 seconds to allow user to leave the place
-            home_mode = False # Set home mode to False
-            GPIO.output(RED_LED, False) # Turn off red LED
-            GPIO.output(GREEN_LED, True) # Turn on green LED
-            print("Security mode activated!")
-            return
+
+    while GPIO.input(BUTTON) == 0:  # While button is pressed
+        if time.time() - start_time >= 5:  # Check for 5 seconds
+            print("Starting security mode in 20 seconds...")
+            GPIO.output(GREEN_LED, False)  # Turn off green LED
+            for i in range(40):  # Blink red LED for 20 seconds, until security mode starts
+                GPIO.output(RED_LED, not GPIO.input(RED_LED))
+                time.sleep(0.5)
+
+            GPIO.output(RED_LED, True)  # Red LED stays on, ON
+            home_mode = False
+            security_message_displayed = False  # Reset whenever the new mode is ACTIVATED
+            print("Security mode is now ON!") # Security Activation Message
+            return # Loop
 
 def alarm():
-    GPIO.output(BUZZER, GPIO.HIGH)
-    playsound("alarm.mp3") # Play alarm sound (We will need to add the sound file later, with the name "alarm.mp3")
-    time.sleep(2) # Alarm duration for now, we can adjust it later
-    GPIO.output(BUZZER, GPIO.LOW)
+    """
+    Turns on the alarm (buzzer). Or wahtever we bought
+    """
+    GPIO.output(BUZZER, GPIO.HIGH) # Sound comes out
+    #print("ALARM!")
+    # playsound("alarm.mp3")  # Uncomment when file is added and we got the piece
+    time.sleep(2)  # Alarm lasts 2 seconds, then again
+    GPIO.output(BUZZER, GPIO.LOW) # Sound stops
 
 def get_distance(trigger, echo):
+    """
+    Measures distance using the ultrasonic sensor and basic physics laws.
+    """
     GPIO.output(trigger, True)
-    time.sleep(0.00001) # Trigger the ultrasonic sensor
+    time.sleep(0.00001)
     GPIO.output(trigger, False)
-    
+
     start_time = time.time()
     stop_time = time.time()
-    
+
     while GPIO.input(echo) == 0:
         start_time = time.time()
     while GPIO.input(echo) == 1:
         stop_time = time.time()
-    
-    elapsed_time = stop_time - start_time
-    distance = (elapsed_time * 34300) / 2  # Convert to cm (because 34300 cm/s is the speed of sound)
-    return distance
 
-def monitor(): # Monitor for motion and ultrasonic sensor input
+    elapsed_time = stop_time - start_time
+    return (elapsed_time * 34300) / 2  # Distance in cm, because 34300 is the speed of sound
+
+def deactivate_security_mode():
+    """
+    Turns off security mode if button is held for 5 seconds.
+    """
+    global home_mode
+    #print("Hold the button for 5 seconds to stop security mode.")
+    start_time = time.time()
+
+    while GPIO.input(BUTTON) == 0:  # While button is pressed
+        if time.time() - start_time >= 5:  # Hold button (check) for 5 seconds
+            home_mode = True
+            GPIO.output(RED_LED, False)
+            GPIO.output(GREEN_LED, True)
+            print("SECURITY MODE OFF. HOME MODE ACTIVATED")
+            return
+
+def monitor():
+    """
+    Keeps the system running and helps to swtich from one mode to another. Kind of a Main function
+    """
+    global message_displayed, security_message_displayed
+
     try:
+        if not message_displayed:  # Show startup message once, ONCE DHKJDHJKSFHKJDFHSJK
+            print("SafeHaven is active in home mode.")
+            print("Hold the button for 5 seconds to activate security mode.")
+            message_displayed = True
+
         while True:
-            security_mode() # Check if the button is pressed to activate security mode
             if home_mode:
-                continue
-            
-            if GPIO.input(MOTION_SENSOR): # Check for motion detection
-                print("Motion detected!")
-                alarm()
-            
-            distance1 = get_distance(ULTRASONIC_1_TRIGGER, ULTRASONIC_1_ECHO) # Get distance from first ultrasonic sensor
-            distance2 = get_distance(ULTRASONIC_2_TRIGGER, ULTRASONIC_2_ECHO) # Get distance from second ultrasonic sensor
-            
-            if distance1 < 50 or distance2 < 50:
-                print("Object detected by ultrasonic sensor!") # If an object is detected within 50 cm, trigger the alarm
-                alarm()
-            
-            time.sleep(0.5) # Adjust the sleep time as needed for the application later
+                security_mode()  # Wait for whenever the security mode activation
+            else:
+                if not security_message_displayed:  # Show message once
+                    print("Hold the button for 5 seconds to deactivate security mode.")
+                    security_message_displayed = True
+
+                deactivate_security_mode()  # Wait for mode deactivation again
+
+                # if GPIO.input(MOTION_SENSOR):
+                #     print("Motion detected!")
+                #     alarm()
+
+                # Ultrasonic sensor
+                distance = get_distance(ULTRASONIC_1_TRIGGER, ULTRASONIC_1_ECHO)
+                if distance < 10:  # Object within 10 cm
+                    print("Ultrasonic sensor detected something!")
+                    alarm()
+
+            time.sleep(0.5)  # Adjust
     except KeyboardInterrupt:
         GPIO.cleanup()
-        print("System Stopped")
-
+        print("System stopped. Cleaning up GPIO.")
+        GPIO.output(RED_LED, False)
+        GPIO.output(GREEN_LED, False)
 
 # Run the system
 if __name__ == "__main__":
-    print("Safe Haven system activated in home mode.")
+    #print("Hold the button for 5 seconds to start security mode.")
     monitor()
-    GPIO.cleanup()
