@@ -37,7 +37,7 @@ GPIO.output(GREEN_LED, True)
 
 def security_mode():
     """
-    Turns on security mode if the button is held for 5 seconds.
+    Turns on security mode if the button is pressed for 5 seconds.
     """
     global home_mode, security_message_displayed
     start_time = time.time()
@@ -46,9 +46,10 @@ def security_mode():
         if time.time() - start_time >= 5:  # Check for 5 seconds
             print("Starting security mode in 20 seconds...")
             GPIO.output(GREEN_LED, False)  # Turn off green LED
-            for i in range(40):  # Blink red LED for 20 seconds, until security mode starts
-                GPIO.output(RED_LED, not GPIO.input(RED_LED))
+            for i in range(40):  # Blink red LED for 20 seconds, until security mode starts, 40 times because 20/0.5 = 40 times
+                GPIO.output(RED_LED, True)
                 time.sleep(0.5)
+                GPIO.output(RED_LED, False)
 
             GPIO.output(RED_LED, True)  # Red LED stays on, ON
             home_mode = False
@@ -58,7 +59,7 @@ def security_mode():
 
 def alarm():
     """
-    Turns on the alarm (buzzer). Or wahtever we bought
+    Turns on the alarm (buzzer). Or wahtever we bought.
     """
     GPIO.output(BUZZER, GPIO.HIGH) # Sound comes out
     #print("ALARM!")
