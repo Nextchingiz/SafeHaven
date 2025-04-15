@@ -90,7 +90,7 @@ def deactivate_security_mode():
     """
     Turns off security mode if button is held for 5 seconds.
     """
-    global home_mode
+    global home_mode # It should not be done, but I define it with the keyword global to use in other places of the program.
     #print("Hold the button for 5 seconds to stop security mode.")
     start_time = time.time()
 
