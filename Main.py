@@ -5,12 +5,12 @@
 ##############################################################
 
 import RPi.GPIO as GPIO
+from gpiozero import Buzzer
 import time
-#from playsound import playsound
 
 # GPIO Pins
 MOTION_SENSOR = 17
-BUZZER = 18
+buzzer = Buzzer(18) # Buzzer through gpiozero library
 BUTTON = 27
 RED_LED = 22
 GREEN_LED = 23
@@ -24,7 +24,6 @@ security_message_displayed = False  # akes sure security message shows once, ONL
 # GPIO Setup
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(MOTION_SENSOR, GPIO.IN)
-GPIO.setup(BUZZER, GPIO.OUT)
 GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
@@ -61,11 +60,10 @@ def alarm():
     """
     Turns on the alarm (buzzer). Or wahtever we bought.
     """
-    GPIO.output(BUZZER, GPIO.HIGH) # Sound comes out
-    #print("ALARM!")
-    # playsound("alarm.mp3")  # Uncomment when file is added and we got the piece
-    time.sleep(2)  # Alarm lasts 2 seconds, then again
-    GPIO.output(BUZZER, GPIO.LOW) # Sound stops
+    buzzer.on()
+    time.sleep(0.5)
+    buzzer.off()
+    time.sleep(0.5)
 
 def get_distance(trigger, echo):
     """
@@ -124,9 +122,10 @@ def monitor():
 
                 deactivate_security_mode()  # Wait for mode deactivation again
 
-                # if GPIO.input(MOTION_SENSOR):
-                #     print("Motion detected!")
-                #     alarm()
+                # Motion sensor
+                if GPIO.input(MOTION_SENSOR):
+                    print("Motion detected!")
+                    alarm()
 
                 # Ultrasonic sensor
                 distance = get_distance(ULTRASONIC_1_TRIGGER, ULTRASONIC_1_ECHO)
