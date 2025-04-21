@@ -7,7 +7,7 @@ import os
 import json # Json for storing user information and further using it for the Flask web app
 
 # Import the necessary files
-from main import home_mode
+from Hardware.main import home_mode
 
 # Path to the user data file where we will store the info
 USER_DATA_FILE = "user_data.json"
