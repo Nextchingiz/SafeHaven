@@ -7,7 +7,7 @@ import os
 import json # Json for storing user information and further using it for the Flask web app
 
 # Import the necessary files
-from Main.py import home_mode
+from main import home_mode
 
 # Path to the user data file where we will store the info
 USER_DATA_FILE = "user_data.json"
@@ -91,7 +91,7 @@ def safehaven_status(username):
     def update_status():
         # Example of updating the status of the screen (When going from home mode to security mode, or viceversa)
         mode_label.config(text = f"Mode: {'Home Mode' if home_mode else 'Security Mode'}")
-        threat_label.config(text = f"Threat: {'None' if not threat_detected else 'Intruder detected!'}")
+        threat_label.config(text = f"Threat: {'None' if not home_mode else 'Intruder detected!'}")
 
     # Define the window
     safehaven_window = tk.Toplevel()
