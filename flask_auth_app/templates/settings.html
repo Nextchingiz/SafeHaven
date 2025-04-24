@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SafeHaven Settings</title>
+<style>
+body {
+      background-color: rgb(40, 40, 43);
+      font-family: 'Trebuchet MS';
+      font-size: 30px;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      color: white
+    }
+
+    h1 {
+      font-size: 50px;
+      color: rgb(252, 252, 252);
+      margin: 40px 0 20px;
+    }
+
+    .button-container {
+      margin-top: 40px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: rgb(97, 103, 143);
+      color: white;
+      padding: 12px 24px;
+      margin: 10px;
+      text-decoration: none;
+      font-family: 'Trebuchet MS';
+      border-radius: 8px;
+      border: none;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: rgb(110, 121, 172);
+    }
+
+    .logout-link {color: white;
+    font-family: 'Trebuchet MS';
+    font-size: 30px;}
+</style>
+
+<body>
+<h1>SafeHaven Settings</h1>
+<h2>Welcome {{username}}</h3>
+<p>Email: {{email}}</p>
+<p>Phone Number: {{number}}</p>
+
+<div class="button-container">>
+  <a class="btn" href="{{ url_for('home') }}"> Return Home </a>
+  <a class="btn" href="{{ url_for('login') }}">Logout</a>
+</div>
+
+</form>
+
+
+</body>
+
+
+
+
+</head>
+
+</html>
