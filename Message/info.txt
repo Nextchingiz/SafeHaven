@@ -1,2 +1,0 @@
-account_sid = US07bc62de4d3a1395a57deec6a974a2c7
-auth_token = 611ea992eb417ea8615e57cc3eb856d2
