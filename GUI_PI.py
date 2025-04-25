@@ -6,6 +6,7 @@ from PIL import ImageTk, Image  # Images for the background and other things
 import os  # Create, check, delete folder, files, etc.
 import json  # Json files storing user data
 from datetime import datetime  # Store the exact date and time something happens
+from main import monitor
 
 # Set mode and theme for CustomTkinter
 customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
@@ -25,7 +26,7 @@ if not os.path.exists(HISTORY_FOLDER):
     os.makedirs(HISTORY_FOLDER)  # Create folder if it does not exist
 
 # Variables for mode and user
-home_mode = True  # Default mode when the program starts
+#home_mode = True  # Default mode when the program starts, eill check this, seems a bit useless
 current_user = None  # Placeholder for the current user
 
 ############
@@ -83,7 +84,7 @@ def login():
     app.title('SafeHaven')  # Window title
 
     # Background image setup
-    img1 = ImageTk.PhotoImage(Image.open("GUI/assets/background.jpg"))
+    img1 = ImageTk.PhotoImage(Image.open("assets/background.jpg"))
     l1 = customtkinter.CTkLabel(master=app, image=img1)
     l1.pack()
 
@@ -131,7 +132,7 @@ def register():
     app.title('SafeHaven')  # Window title
 
     # Background image setup
-    img1 = ImageTk.PhotoImage(Image.open("GUI/assets/background.jpg"))
+    img1 = ImageTk.PhotoImage(Image.open("assets/background.jpg"))
     l1 = customtkinter.CTkLabel(master=app, image=img1)
     l1.pack()
 
@@ -191,6 +192,7 @@ def register():
 
 # Home Page
 def show_home(username):
+
     global home_mode
     user_data = load_user_data()
 
@@ -222,6 +224,9 @@ def show_home(username):
         history = read_user_history(username)
         for detection in history["detections"]:
             history_text.insert(tkinter.END, f"{detection['timestamp']}: {detection['type']}\n")
+
+    # Start the security system
+    monitor() # Start the security system
 
     update_history()  # Load history when the page opens
     home_mode = True  # Ensure home mode is active
