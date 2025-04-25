@@ -6,9 +6,14 @@ import os
 import json
 from datetime import datetime
 from threading import Thread
-import time
 from queue import Queue
-from main import monitor
+import time
+
+# Placeholder for the monitor function
+def monitor(queue):
+    while True:
+        time.sleep(2)  # Simulate detection every 2 seconds
+        queue.put("Simulated Detection")
 
 # Set mode and theme for CustomTkinter
 customtkinter.set_appearance_mode("System")
@@ -159,7 +164,6 @@ def register():
     app.mainloop()
 
 def show_home(username):
-    global home_mode
     user_data = load_user_data()
     detection_queue = Queue()
 
@@ -175,8 +179,6 @@ def show_home(username):
 
     customtkinter.CTkLabel(left_frame, text=f"Welcome, {username}", font=('Arial', 22)).pack(pady=10)
     customtkinter.CTkLabel(left_frame, text=f"Phone: {user_data[username]['phone']}", font=('Arial', 18)).pack(pady=5)
-    customtkinter.CTkLabel(left_frame, text="Mode: Home Mode", font=('Arial', 18)).pack(pady=10)
-    customtkinter.CTkLabel(left_frame, text="Press 5 seconds to activate Security Mode", font=('Arial', 16)).pack(pady=5)
 
     customtkinter.CTkLabel(right_frame, text="Detection History", font=('Arial', 22)).pack(pady=10)
     history_text = tkinter.Text(right_frame, wrap=tkinter.WORD, font=('Arial', 14))
@@ -199,7 +201,6 @@ def show_home(username):
 
     Thread(target=monitor_thread, daemon=True).start()
     update_history()
-    home_mode = True
     app.mainloop()
 
 if __name__ == "__main__":
