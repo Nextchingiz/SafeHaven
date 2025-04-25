@@ -116,6 +116,7 @@ app.title('SafeHaven')
 
 # Login Page
 def login():
+
     img1 = ImageTk.PhotoImage(Image.open("GUI/assets/background.jpg"))
     l1 = customtkinter.CTkLabel(master=app, image=img1)
     l1.pack()
@@ -153,7 +154,8 @@ def login():
 
 # Register Page
 def register():
-    img1 = ImageTk.PhotoImage(Image.open("./assets/background.jpg"))
+
+    img1 = ImageTk.PhotoImage(Image.open("GUI/assets/background.jpg"))
     l1 = customtkinter.CTkLabel(master=app, image=img1)
     l1.pack()
 
@@ -251,3 +253,4 @@ def show_home(username):
 
 if __name__ == "__main__":
     login()
+    register()
