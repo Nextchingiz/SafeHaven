@@ -45,16 +45,19 @@ def security_mode():
         if time.time() - start_time >= 5:  # Check for 5 seconds
             print("Starting security mode in 20 seconds...")
             GPIO.output(GREEN_LED, False)  # Turn off green LED
-            for i in range(40):  # Blink red LED for 20 seconds, until security mode starts, 40 times because 20/0.5 = 40 times
+            
+            # Blink red LED for 20 seconds (0.5-second intervals)
+            for i in range(40):
                 GPIO.output(RED_LED, True)
-                time.sleep(0.5)
+                time.sleep(0.25)  # Turn on for 0.25 seconds
                 GPIO.output(RED_LED, False)
+                time.sleep(0.25)  # Turn off for 0.25 seconds
 
-            GPIO.output(RED_LED, True)  # Red LED stays on, ON
+            GPIO.output(RED_LED, True)  # Red LED stays on after blinking
             home_mode = False
-            security_message_displayed = False  # Reset whenever the new mode is ACTIVATED
-            print("Security mode is now ON!") # Security Activation Message
-            return # Loop
+            security_message_displayed = False  # Reset whenever a new mode is ACTIVATED
+            print("Security mode is now ON!")  # Security Activation Message
+            return  # Exit the loop
 
 def alarm():
     """
