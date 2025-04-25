@@ -1,1 +1,10 @@
-{"Chingiz": {"password": "1234", "phone": "273462"}}
+{
+    "Chingiz": {
+        "password": "1234",
+        "phone": "273462"
+    },
+    "chingiz": {
+        "password": "1234",
+        "phone": "2342"
+    }
+}

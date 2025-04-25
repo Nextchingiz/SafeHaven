@@ -144,7 +144,7 @@ app.geometry("800x600")
 app.title("SafeHaven")
 
 # Background Image
-bg_image = Image.open("GUI/assets/background.jpg")
+bg_image = Image.open("assets/background.jpg")
 bg_image = ImageTk.PhotoImage(bg_image)
 
 bg_label = tkinter.Label(app, image=bg_image)

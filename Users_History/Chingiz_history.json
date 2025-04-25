@@ -1,1 +1,44 @@
-{"detections": []}
+{
+    "detections": [
+        {
+            "timestamp": "2025-04-24 23:05:08",
+            "type": "Simulated Detection"
+        },
+        {
+            "timestamp": "2025-04-24 23:05:08",
+            "type": "Simulated Detection"
+        },
+        {
+            "timestamp": "2025-04-24 23:05:09",
+            "type": "Simulated Detection"
+        },
+        {
+            "timestamp": "2025-04-24 23:05:09",
+            "type": "Simulated Detection"
+        },
+        {
+            "timestamp": "2025-04-24 23:05:10",
+            "type": "Simulated Detection"
+        },
+        {
+            "timestamp": "2025-04-24 23:05:11",
+            "type": "Simulated Detection"
+        },
+        {
+            "timestamp": "2025-04-24 23:05:11",
+            "type": "Simulated Detection"
+        },
+        {
+            "timestamp": "2025-04-24 23:05:11",
+            "type": "Simulated Detection"
+        },
+        {
+            "timestamp": "2025-04-24 23:05:12",
+            "type": "Simulated Detection"
+        },
+        {
+            "timestamp": "2025-04-24 23:05:12",
+            "type": "Simulated Detection"
+        }
+    ]
+}
