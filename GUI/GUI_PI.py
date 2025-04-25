@@ -1,28 +1,32 @@
+# This is the main GUI for the Rasp Pi
+
 # Import libraries
-import tkinter
-import customtkinter
-from tkinter import messagebox
-from PIL import ImageTk, Image
-import os
-import json
+import tkinter # For the GUI
+import customtkinter # Make the GUI look better
+from tkinter import messagebox # messageboxes
+from PIL import ImageTk, Image # Images for the background and other things
+import os # Create, check, delete folder, files, etc.
+import json # Json files storing user data
 import RPi.GPIO as GPIO
-import time
-from datetime import datetime
+import time # Time
+from datetime import datetime # Store the exact date and time something happens
 
 # Set mode and theme for CustomTkinter
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
-# Directory and file setup
+# Directory and file setup: name the file with the user data, and the folder storing the user's history
 USER_DATA_FILE = "user_data.json"
 HISTORY_FOLDER = "Users_History"
 
+# Check if we have already created a json file with the user's info, if not, create one
 if not os.path.exists(USER_DATA_FILE):
     with open(USER_DATA_FILE, "w") as file:
         json.dump({}, file)
 
+# Check if we have already a folder stroing json files with the user's history
 if not os.path.exists(HISTORY_FOLDER):
-    os.makedirs(HISTORY_FOLDER)
+    os.makedirs(HISTORY_FOLDER) # Make directory/folder
 
 # Raspberry Pi GPIO setup
 MOTION_SENSOR = 17
@@ -31,6 +35,7 @@ BUTTON = 27
 RED_LED = 22
 GREEN_LED = 23
 
+# GPIO Setup
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(MOTION_SENSOR, GPIO.IN)
 GPIO.setup(BUZZER, GPIO.OUT)
@@ -38,8 +43,13 @@ GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
 
+# Set the home_mode to true, so it always starts like that
 home_mode = True
-current_user = None
+current_user = None # No current user's, it will be set once the user logs into it's account
+
+############
+####JSON####
+############
 
 # Save user data
 def save_user_data(data):
@@ -77,7 +87,7 @@ def add_detection_to_history(username, detection_type):
     with open(history_file, "w") as file:
         json.dump(history, file)
 
-# Read user's detection history
+# Read user's detection history and update it whenever it is neededd
 def read_user_history(username):
     history_file = get_user_history_file(username)
     with open(history_file, "r") as file:
@@ -106,7 +116,7 @@ app.title('SafeHaven')
 
 # Login Page
 def login():
-    img1 = ImageTk.PhotoImage(Image.open("./assets/background.jpg"))
+    img1 = ImageTk.PhotoImage(Image.open("GUI/assets/background.jpg"))
     l1 = customtkinter.CTkLabel(master=app, image=img1)
     l1.pack()
 
