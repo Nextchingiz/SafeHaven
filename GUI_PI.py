@@ -1,3 +1,6 @@
+# Raspberry Pi GUI
+
+# Import libraries
 import tkinter
 import customtkinter
 from tkinter import messagebox
