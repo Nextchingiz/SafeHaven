@@ -3,7 +3,7 @@
 
 # Import libraries
 import os
-import json # For th
+import json
 import tkinter
 import customtkinter
 from datetime import datetime
