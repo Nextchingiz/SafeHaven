@@ -224,7 +224,7 @@ def register():
 
 # Define the function to show the home page/frame
 def show_home(username):
-
+    
     # Define the global variables
     global home_mode
     user_data = load_user_data()
@@ -236,13 +236,12 @@ def show_home(username):
     app.title('SafeHaven')
 
     # Generate the background image
-
     img1 = ImageTk.PhotoImage(Image.open("assets/background.jpg"))
-    l1 = customtkinter.CTkLabel(master = app, image = img1)
-    l1.pack()
+    background_label = customtkinter.CTkLabel(master = app, image = img1)
+    background_label.place(relx = 0, rely = 0, relwidth = 1, relheight = 1)
 
     # Generate the Top frame for the User info
-    top_frame = customtkinter.CTkFrame(master = l1, width = 1280/2)
+    top_frame = customtkinter.CTkFrame(master = app, width = 1280/2)
     top_frame.place(side = tkinter.TOP, fill = tkinter.BOTH, padx = 10, pady = 10)
 
     # Labels for the top frame
@@ -252,7 +251,7 @@ def show_home(username):
     customtkinter.CTkLabel(top_frame, text = "Press 5 seconds to activate Security Mode", font = ('Arial', 16)).pack(pady = 5)
 
     # Generate the Bottom frame for the history
-    bottom_frame = customtkinter.CTkFrame(master = l1, width = 1280/2)
+    bottom_frame = customtkinter.CTkFrame(master = app, width = 1280/2)
     bottom_frame.place(side = tkinter.BOTTOM, fill = tkinter.BOTH, padx = 10, pady = 10)
 
     # Labels for the bottom frame
