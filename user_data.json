@@ -1,10 +1,1 @@
-{
-    "Chingiz": {
-        "password": "1234",
-        "phone": "273462"
-    },
-    "chingiz": {
-        "password": "1234",
-        "phone": "2342"
-    }
-}
+{"demo": {"password": "1234", "phone": "323234"}}
