@@ -11,7 +11,7 @@ def send_message(number:str, message:str, provider:str, sender_credentials:tuple
         email.login(sender_email, email_password)
         email.sendmail(sender_email, receiver_email, email_message)
 
-def message(time:str, alert_type:str, number:str):
+def MESSAGE(time:str, alert_type:str, number:str):
     if number.len() == 10:
         number = number
     else:
