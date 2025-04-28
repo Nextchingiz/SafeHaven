@@ -215,6 +215,9 @@ def add_detection_to_history(username, detection_type):
     }
     history["detections"].append(detection_entry)
 
+    # Sends Alert
+    MESSAGE(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), detection_type,"3186131760")
+    
     # Save the updated history
     with open(history_file, "w") as file:
         json.dump(history, file, indent = 4)
