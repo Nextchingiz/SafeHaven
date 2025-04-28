@@ -11,13 +11,14 @@ def send_message(number:str, message:str, provider:str, sender_credentials:tuple
         email.login(sender_email, email_password)
         email.sendmail(sender_email, receiver_email, email_message)
 
-def message(time, alert_type, number:str):
-    number = "3186131760"
-    message = "There was an alert"
+def message(time:str, alert_type:str, number:str):
+    if number.len() == 10:
+        number = number
+    else:
+        print("Improper Number)
+    
+    message = f"There was {alert_type} at {time}"
     provider = "AT&T"
 
     sender_credentials = ("thesafehaven0@gmail.com", "cmfb uxnk nwcn ngch")
     send_message(number, message, provider, sender_credentials)
-
-
-main()
