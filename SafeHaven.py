@@ -272,7 +272,7 @@ def login():
             initialize_user_history(username) # If it is true, start the user history file, to start storing data
             messagebox.showinfo("Success", "Login successful!") # Small messagebox informing about the successful attempt
             app.destroy() # Destroy/close the login page
-            main(username) # Start the main program (the function is defined below)
+            # main(username) # Start the main program (the function is defined below)
         else:
             messagebox.showerror("Error", "Invalid username or password!") # Error if the username and/or password are not the same
 
@@ -376,19 +376,14 @@ def register():
 ####MAIN#####
 #############
 
-# Define the function to show the home page/frame
-def main(username):
-
-    # Define the global variables
-    user_data = load_user_data()
-
-    # Define a function to update the detection history
-    # def update_history():
-        # add_detection_to_history(username, detection)
-
-    # Start the monitor function, that starts the hardware RPi GPIO
-    monitor()
+def main():
+    login()
+    # if GPIO.input(BUTTON) == 10:
+        # GPIO.cleanup()
+        # print("System stopped. Cleaning up GPIO.")
+        # GPIO.output(RED_LED, False)
+        # GPIO.output(GREEN_LED, False)
 
 # Start the program
 if __name__ == "__main__":
-    login()
+    main()

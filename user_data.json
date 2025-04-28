@@ -14,5 +14,9 @@
     "demo3": {
         "password": "demo3",
         "phone": "0000000000"
+    },
+    "demo4": {
+        "password": "demo4",
+        "phone": "34534534"
     }
 }
