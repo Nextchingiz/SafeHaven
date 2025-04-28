@@ -31,7 +31,7 @@ ULTRASONIC_1_ECHO = 6
 
 home_mode = True  # System starts in home mode ALWAYS
 message_displayed = False  # Makes sure startup message shows once, ONLY ONCE
-security_message_displayed = False  # akes sure security message shows once, ONLY ONCE
+security_message_displayed = False  # Makes sure security message shows once, ONLY ONCE
 
 # GPIO Setup
 GPIO.setmode(GPIO.BCM)
@@ -42,7 +42,7 @@ GPIO.setup(GREEN_LED, GPIO.OUT)
 GPIO.setup(ULTRASONIC_1_TRIGGER, GPIO.OUT)
 GPIO.setup(ULTRASONIC_1_ECHO, GPIO.IN)
 
-# Turn on green LED (home mode) ALWAYS when sttarting the program
+# Turn on green LED (home mode) ALWAYS when starting the program
 GPIO.output(RED_LED, False)
 GPIO.output(GREEN_LED, True)
 
@@ -73,7 +73,7 @@ def security_mode():
 
 def alarm():
     """
-    Turns on the alarm (buzzer). Or wahtever we bought.
+    Turns on the alarm (buzzer). Or whatever we bought.
     """
     buzzer.on()
     time.sleep(0.5)
@@ -117,7 +117,7 @@ def deactivate_security_mode():
 
 def monitor():
     """
-    Keeps the system running and helps to swtich from one mode to another. Kind of a Main function
+    Keeps the system running and helps to switch from one mode to another. Kind of a Main function
     """
     global message_displayed, security_message_displayed
 
@@ -129,6 +129,7 @@ def monitor():
 
         while True:
             if home_mode:
+                GPIO.output(GREEN_LED, True)  # Ensure green LED is on in home mode
                 security_mode()  # Wait for whenever the security mode activation
             else:
                 if not security_message_displayed:  # Show message once
@@ -140,12 +141,14 @@ def monitor():
                 # Motion sensor
                 if GPIO.input(MOTION_SENSOR):
                     print("Motion detected!")
+                    add_detection_to_history(current_user, "Motion Detection")
                     alarm()
 
                 # Ultrasonic sensor
                 distance = get_distance(ULTRASONIC_1_TRIGGER, ULTRASONIC_1_ECHO)
                 if distance < 10:  # Object within 10 cm
                     print("Ultrasonic sensor detected something!")
+                    add_detection_to_history(current_user, "Ultrasonic Detection")
                     alarm()
 
             time.sleep(0.5)  # Adjust
