@@ -1,1 +1,18 @@
-{"demo": {"password": "1234", "phone": "323234"}}
+{
+    "demo": {
+        "password": "1234",
+        "phone": "323234"
+    },
+    "demo2": {
+        "password": "demo2",
+        "phone": "0000000000"
+    },
+    "user": {
+        "password": "user",
+        "phone": "0000000000"
+    },
+    "demo3": {
+        "password": "demo3",
+        "phone": "0000000000"
+    }
+}

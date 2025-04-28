@@ -89,20 +89,20 @@ def login():
     l1.pack()
 
     # Custom frame inside the GUI
-    frame = customtkinter.CTkFrame(master = l1, width = 320, height = 360, corner_radius = 45)
+    frame = customtkinter.CTkFrame(master = l1, width = 320, height = 360, corner_radius = 45, border_width = 5)
     frame.place(relx = 0.5, rely = 0.5, anchor = tkinter.CENTER)
 
     # Labels: Main text on the Top, and bottom registration text suggesting to click the registration button
-    customtkinter.CTkLabel(master = frame, text = "Sign in SafeHaven", font = ('Arial', 28)).place(x = 50, y = 45)
-    customtkinter.CTkLabel(master = frame, text = "Not signed in yet?", font = ('Arial', 22)).place(x = 70, y = 250)
+    customtkinter.CTkLabel(master = frame, text = "Sign in SafeHaven", font = ('MS Sans Serif', 28)).place(x = 50, y = 45)
+    customtkinter.CTkLabel(master = frame, text = "Not signed in yet?", font = ('MS Sans Serif', 22)).place(x = 70, y = 250)
 
     # Entry for the Username, including it's placeholder
-    entry1 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Username')
+    entry1 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Username', font = ('MS Sans Serif', 15))
     entry1.place(x = 50, y = 110)
 
     # Entry for the Username, including it's placeholder. It will show "*" whenever something is typed
-    entry2 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Password', show = "*")
-    entry2.place(x=50, y=155)
+    entry2 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Password', show = "*", font = ('MS Sans Serif', 15))
+    entry2.place(x = 50, y = 155)
 
     # Attempt of login function (Not login exactly, because you have to try it first)
     def attempt_login():
@@ -128,10 +128,10 @@ def login():
             messagebox.showerror("Error", "Invalid username or password!") # Error if the username and/or password are not the same
 
     # Button for the Login
-    customtkinter.CTkButton(master = frame, width = 220, text = "Login", command = attempt_login, corner_radius = 6).place(x = 50, y = 200)
+    customtkinter.CTkButton(master = frame, width = 220, text = "Login", command = attempt_login, corner_radius = 6, font = ('MS Sans Serif', 15)).place(x = 50, y = 200)
 
     # Button for the Registration
-    customtkinter.CTkButton(master = frame, width = 220, text = "Register", command = lambda: [app.destroy(), register()], corner_radius = 6).place(x = 50, y = 290)
+    customtkinter.CTkButton(master = frame, width = 220, text = "Register", command = lambda: [app.destroy(), register()], corner_radius = 6, font = ('MS Sans Serif', 15)).place(x = 50, y = 290)
 
     # Mainloop to run the Login page
     app.mainloop()
@@ -154,22 +154,22 @@ def register():
     frame.place(relx = 0.5, rely = 0.5, anchor = tkinter.CENTER) # Center the frame in the page
 
     # Label for the general message on top, just as a welcoming message
-    customtkinter.CTkLabel(master = frame, text = "Register in SafeHaven", font = ('Arial', 28)).place(x = 18, y = 45)
+    customtkinter.CTkLabel(master = frame, text = "Register in SafeHaven", font = ('MS Sans Serif', 28)).place(x = 18, y = 45)
 
     # Entry for the Username, with a placeholder
-    entry1 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Username')
+    entry1 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Username', font = ('MS Sans Serif', 15))
     entry1.place(x = 50, y = 110)
 
     # Entry for the Password, including it's placeholder
-    entry2 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Password', show = "*")
+    entry2 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Password', show = "*", font = ('MS Sans Serif', 15))
     entry2.place(x = 50, y = 165)
 
     # Entry for the Confirm Password, including it's placeholder
-    entry3 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Confirm Password', show = "*")
+    entry3 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Confirm Password', show = "*", font = ('MS Sans Serif', 15))
     entry3.place(x = 50, y = 220)
 
     # Entry for the Phone Number, including it's placeholder
-    entry4 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Phone Number')
+    entry4 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Phone Number', font = ('MS Sans Serif', 15))
     entry4.place(x = 50, y = 275)
 
     # Define a submit registration function, why not just registration? Well, same as before, it's an attempt.
@@ -202,9 +202,6 @@ def register():
         user_data[username] = {"password": password, "phone": phone}
         save_user_data(user_data)
         initialize_user_history(username)
-        messagebox.showinfo("Success", "Registration successful!")
-        app.destroy()
-        login()
         """
 
         user_data[username] = {"password": password, "phone": phone}
@@ -216,15 +213,19 @@ def register():
         with open(history_path, "w") as file:
             json.dump({"detections": []}, file)
 
+        messagebox.showinfo("Success", "Registration successful!")
+        app.destroy()
+        login()
+
     # Button to Register
-    customtkinter.CTkButton(master = frame, width = 220, text = "Register", command = submit_registration, corner_radius = 6).place(x = 50, y = 330)
+    customtkinter.CTkButton(master = frame, width = 220, text = "Register", command = submit_registration, corner_radius = 6, font = ('MS Sans Serif', 15)).place(x = 50, y = 330)
 
     # Maimloop
     app.mainloop()
 
 # Define the function to show the home page/frame
 def show_home(username):
-    
+
     # Define the global variables
     global home_mode
     user_data = load_user_data()
@@ -235,30 +236,31 @@ def show_home(username):
     app.geometry("1280x720")
     app.title('SafeHaven')
 
-    # Generate the background image
+    # Background image, same as before in the Login page
     img1 = ImageTk.PhotoImage(Image.open("assets/background.jpg"))
-    background_label = customtkinter.CTkLabel(master = app, image = img1)
-    background_label.place(relx = 0, rely = 0, relwidth = 1, relheight = 1)
+    l1 = customtkinter.CTkLabel(master = app, image = img1)
+    l1.pack()
 
-    # Generate the Top frame for the User info
-    top_frame = customtkinter.CTkFrame(master = app, width = 1280/2)
-    top_frame.place(side = tkinter.TOP, fill = tkinter.BOTH, padx = 10, pady = 10)
+    # Left frame
+    left_frame = customtkinter.CTkFrame(master = l1, width = 565, height = 310, corner_radius = 5, border_width = 5)
+    left_frame.place(x = 50, y = 50)
 
     # Labels for the top frame
-    customtkinter.CTkLabel(top_frame, text = f"Welcome, {username}", font = ('Arial', 22)).pack(pady = 10)
-    customtkinter.CTkLabel(top_frame, text = f"Phone: {user_data[username]['phone']}", font = ('Arial', 18)).pack(pady = 5)
-    customtkinter.CTkLabel(top_frame, text = "Mode: Home Mode", font = ('Arial', 18)).pack(pady = 10)
-    customtkinter.CTkLabel(top_frame, text = "Press 5 seconds to activate Security Mode", font = ('Arial', 16)).pack(pady = 5)
+    customtkinter.CTkLabel(master = left_frame, text = f"Welcome, {username}", font = ('MS Sans Serif', 45), justify = "center").place(x = 110, y = 10)
+    customtkinter.CTkLabel(master = left_frame, text = f"Phone: {user_data[username]['phone']}", font = ('MS Sans Serif', 35), justify = "center").place(x = 175, y = 75)
+    customtkinter.CTkLabel(master = left_frame, text = "Mode: Home", font = ('MS Sans Serif', 35), justify = "center").place(x = 195, y = 130)
+    customtkinter.CTkLabel(master = left_frame, text = "Press 5 seconds to switch modes", font = ('MS Sans Serif', 35), justify = "center").place(x = 25, y = 195)
 
-    # Generate the Bottom frame for the history
-    bottom_frame = customtkinter.CTkFrame(master = app, width = 1280/2)
-    bottom_frame.place(side = tkinter.BOTTOM, fill = tkinter.BOTH, padx = 10, pady = 10)
+    # Right frame
+    right_frame = customtkinter.CTkFrame(master = l1, width = 565, height = 620, corner_radius = 5, border_width = 5)
+    right_frame.place(x = 665, y = 50)
 
-    # Labels for the bottom frame
-    customtkinter.CTkLabel(bottom_frame, text = "Detection History", font = ('Arial', 22)).pack(pady = 10)
-    history_text = tkinter.Text(bottom_frame, wrap = tkinter.WORD, font = ('Arial', 14))
-    history_text.pack(fill = tkinter.BOTH, expand = True)
+    # Labels for the right frame
+    customtkinter.CTkLabel(master = right_frame, text = "Detection History", font = ('MS Sans Serif', 45), justify = "center").place(x = 95, y = 10)
+    #history_text = tkinter.Text(master = right_frame, wrap = tkinter.WORD, font = ('MS Sans Serif', 14)).place(x = 10, y = 15)
+    #history_text.pack(fill = tkinter.BOTH, expand = True)
 
+    """
     # Define a function to update the detection history
     def update_history():
         while not detection_queue.empty():
@@ -271,7 +273,8 @@ def show_home(username):
             history_text.insert(tkinter.END, f"{detection['timestamp']}: {detection['type']}\n")
 
         app.after(1000, update_history)
-    
+    """
+
     # Start the monitor function, that starts the hardware RPi GPIO
     def monitor_thread():
         monitor(detection_queue)
