@@ -11,7 +11,7 @@ def send_message(number:str, message:str, provider:str, sender_credentials:tuple
         email.login(sender_email, email_password)
         email.sendmail(sender_email, receiver_email, email_message)
 
-def main():
+def message(time, alert_type, number:str):
     number = "3186131760"
     message = "There was an alert"
     provider = "AT&T"
