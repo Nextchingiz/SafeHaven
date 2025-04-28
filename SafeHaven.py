@@ -15,7 +15,7 @@ from datetime import datetime
 import time
 import RPi.GPIO as GPIO
 from gpiozero import Buzzer
-from message import message
+from message import MESSAGE
 
 ################
 ####HARDWARE####
