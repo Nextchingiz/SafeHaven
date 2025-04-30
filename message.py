@@ -12,10 +12,6 @@ def send_message(number:str, message:str, provider:str, sender_credentials:tuple
         email.sendmail(sender_email, receiver_email, email_message)
 
 def MESSAGE(time:str, alert_type:str, number:str):
-    if number.len() == 10:
-        number = number
-    else:
-        print("Improper Number)
     
     message = f"There was {alert_type} at {time}"
     provider = "AT&T"
