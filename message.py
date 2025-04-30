@@ -15,7 +15,7 @@ def MESSAGE(time:str, alert_type:str, number:str):
     if number.len() == 10:
         number = number
     else:
-        print("Improper Number")
+        print("Improper Number)
     
     message = f"There was {alert_type} at {time}"
     provider = "AT&T"
