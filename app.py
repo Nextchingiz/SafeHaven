@@ -29,6 +29,12 @@ def get_user_detections(username):
     with open(history_file, 'r') as f:
         data = json.load(f)
         return data['detections']
+    
+# Check user updates
+def is_recent(timestamp_str):
+    """Returns True if timestamp is within the last 5 minutes."""
+    detection_time = datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
+    return (datetime.now() - detection_time).total_seconds() < 300  # 300 seconds = 5 minutes, Check every 5 minutes
 
 # route to direct the user to home page if they were logged in
 @app.route('/')
@@ -48,16 +54,30 @@ def home():
 def signup():
     if request.method == 'POST':
         username = request.form['username']
-        email = request.form['email']
-        number = request.form['number']
         password = request.form['password']
+        phone = request.form['number']  # Only username/password/phone now
 
-        if username in users:
-            flash('Username already exists. Please choose another one.')
+        # Load existing data
+        try:
+            with open('user_data.json', 'r') as f:
+                user_data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            user_data = {}
+
+        if username in user_data:
+            flash('Username already exists!')
             return redirect(url_for('signup'))
 
-        users[username] = Account(username, password, email, number)
-        flash('Account Created! Please log in.')
+        # Save only these 3 fields
+        user_data[username] = {
+            "password": password,
+            "phone": phone  # No more email
+        }
+
+        with open('user_data.json', 'w') as f:
+            json.dump(user_data, f, indent=4)
+
+        flash('Registration successful!')
         return redirect(url_for('login'))
 
     return render_template('signup.html')
@@ -69,8 +89,15 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        account = users.get(username)
-        if account and account.password == password:
+        try:
+            with open('user_data.json', 'r') as f:
+                user_data = json.load(f)
+        except:
+            flash('System error: No user data found')
+            return redirect(url_for('login'))
+
+        # Strict check (case-sensitive)
+        if username in user_data and user_data[username]['password'] == password:
             session['username'] = username
             return redirect(url_for('home'))
         else:
@@ -104,17 +131,26 @@ def settings():
         flash("You need to log in first.")
         return redirect(url_for('login'))
 
+# Redirects tp the history page
 @app.route('/history')
 def history():
     if 'username' not in session:
-        flash("Please log in to view history")
         return redirect(url_for('login'))
     
     username = session['username']
-    detections = get_user_detections(username)
+    history_file = os.path.join('Users_History', f'{username}_history.json')
     
-    # Sort detections by timestamp (newest first)
-    detections.sort(key=lambda x: datetime.strptime(x['timestamp'], "%Y-%m-%d %H:%M:%S"), reverse=True)
+    # Load detection history or create empty list if file doesn't exist
+    try:
+        with open(history_file, 'r') as f:
+            detections = json.load(f).get('detections', [])
+    except (FileNotFoundError, json.JSONDecodeError):
+        detections = []
+    
+    # Sort by timestamp (newest first) and add 'is_recent' flag
+    detections.sort(key=lambda x: x['timestamp'], reverse=True)
+    for detection in detections:
+        detection['is_recent'] = is_recent(detection['timestamp'])
     
     return render_template('history.html', detections=detections)
 
