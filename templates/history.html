@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SafeHaven History</title>
+    <style>
+        body {
+            background-color: rgb(40, 40, 43);
+            font-family: 'Trebuchet MS';
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .detection-table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        
+        .detection-table th, .detection-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        
+        .detection-table th {
+            background-color: rgb(97, 103, 143);
+            color: white;
+        }
+        
+        .detection-table tr:hover {
+            background-color: rgba(97, 103, 143, 0.2);
+        }
+        
+        .recent {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: rgb(97, 103, 143);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        
+        .back-btn:hover {
+            background-color: rgb(110, 121, 172);
+        }
+    </style>
+</head>
+<body>
+    <h1>Your SafeHaven History</h1>
+    
+    {% if detections %}
+        <table class="detection-table">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Detection Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detection in detections %}
+                    <tr {% if is_recent(detection['timestamp']) %}class="recent"{% endif %}>
+                        <td>{{ detection['timestamp'] }}</td>
+                        <td>{{ detection['type'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No detection history found.</p>
+    {% endif %}
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ url_for('home') }}" class="back-btn">Return to Home</a>
+    </div>
+</body>
+</html>
