@@ -110,6 +110,30 @@
 
   </form>
 
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+        fetch("{{ url_for('login') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(new FormData(this))
+        })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+            return response.text();
+        })
+        .then(data => {
+            if (data.includes('Invalid username or password')) {
+                alert('Login failed! Check your credentials.');
+            }
+        });
+    });
+</script>
+
 </div>
 </body>
 </html>

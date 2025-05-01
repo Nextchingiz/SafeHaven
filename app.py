@@ -86,25 +86,24 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '').strip()
+        
         try:
             with open('user_data.json', 'r') as f:
                 user_data = json.load(f)
         except:
-            flash('System error: No user data found')
-            return redirect(url_for('login'))
+            flash('System error')
+            return render_template('login.html')
 
-        # Strict check (case-sensitive)
         if username in user_data and user_data[username]['password'] == password:
             session['username'] = username
-            return redirect(url_for('home'))
-        else:
-            flash('Invalid username or password')
-
+            return redirect(url_for('home'))  # Ensure this redirect works
+        
+        flash('Invalid username or password')
+    
+    # For GET requests or failed logins
     return render_template('login.html')
-
 # redirects them home if they logout
 @app.route('/logout')
 def logout():
