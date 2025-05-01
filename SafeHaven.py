@@ -215,12 +215,23 @@ def add_detection_to_history(username, detection_type):
     }
     history["detections"].append(detection_entry)
 
-    # Sends Alert
-    MESSAGE(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), detection_type,"3183946120")
+    # Load user data to get phone number
+    with open(USER_DATA_FILE, "r") as file:
+        user_data = json.load(file)
     
+    # Get phone number for current user
+    phone_number = user_data.get(username, {}).get("phone", "") # Access the current user's phone number directly from the user_data.json
+    
+    # Validate phone number before sending
+    if phone_number and len(phone_number) == 10: # Include the len(phone_number) check here instead, it is more convenient
+        # Send Alert with the user's phone number
+        MESSAGE(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), detection_type, phone_number)
+    else:
+        print(f"Warning: Invalid phone number for user {username}. Alert not sent.")
+
     # Save the updated history
     with open(history_file, "w") as file:
-        json.dump(history, file, indent = 4)
+        json.dump(history, file, indent=4)
 
 # Read the user's history
 def read_user_history(username):
