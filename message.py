@@ -19,8 +19,10 @@ def send_message(number: str, message: str, provider: str, sender_credentials: t
 
 def MESSAGE(time: str, alert_type: str, number: str):
     
-    message = f"There was {alert_type} at {time}"
+    text = f" There was a {alert_type} at {time}"
     provider = "AT&T"
     sender_credentials = ("thesafehaven0@gmail.com", "cmfb uxnk nwcn ngch")
 
-    send_message(number, message, provider, sender_credentials)
+    send_message(number, text, provider, sender_credentials)
+
+    print(f'\nAlert sent to ({number[0:3]}) {number[3:6]}-{number[6:10]}: "{text[1:]}"\n')
