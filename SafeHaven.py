@@ -37,7 +37,7 @@ security_message_displayed = False  # Makes sure security message shows once, ON
 # GPIO Setup
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(MOTION_SENSOR, GPIO.IN)
-GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(BUTTON, GPIO.IN, pull_up_down = GPIO.PUD_UP)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
 GPIO.setup(ULTRASONIC_1_TRIGGER, GPIO.OUT)
@@ -129,9 +129,9 @@ def monitor():
             message_displayed = True
 
         while True:
-            if home_mode:
-                GPIO.output(GREEN_LED, True)  # Ensure green LED is on in home mode
-                security_mode()  # Wait for whenever the security mode activation
+            if home_mode == True:
+                GPIO.output(GREEN_LED, True)  # Green LED is on in home mode
+                # security_mode()  # Wait for whenever the security mode activation
             else:
                 if not security_message_displayed:  # Show message once
                     print("Hold the button for 5 seconds to deactivate security mode.")
