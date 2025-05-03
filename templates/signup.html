@@ -1,86 +1,118 @@
 <!doctype html>
 <html>
+<head>
+    <title>Sign Up for SafeHaven</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', sans-serif;
+            background-color: rgb(40, 40, 43);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-<style>
-    body {
-        font-family: Arial, Georgia;
-        background-color: rgb(40, 40, 43);
-        height: 100vh;
-        justify-content: center;
-        margin: 0;
-    }
+        .signup-wrapper {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
 
-    .login-container {
-        background-color: rgb(91, 82, 172);
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        width: 300px;
-        text-align: center;
-      }
+        .signup-container {
+            background-color: rgb(50, 50, 55);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
 
-      h2 {
-        font-family: 'Trebuchet MS';
-        font-size: 40px;
-        color:rgb(255, 255, 255);
-        margin-bottom: 20px;
-      }
+        h2 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
 
-      input {
-        width: 50%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-      }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: rgb(60, 60, 65);
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
 
-      button {
-        display: block;
-        padding: 50px;
-        background-color: #88a8c7;
-        color: white;
-        border-radius: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        height: 30px;
-      }
+        button {
+            width: 100%;
+            padding: 14px;
+            margin: 15px 0;
+            background-color: rgb(97, 103, 143);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
 
+        button:hover {
+            background-color: rgb(110, 121, 172);
+        }
 
-      button:hover {
-        background-color: #839cc2;
-      }
-  
+        .error-messages {
+            color: #ff6b6b;
+            margin: 15px 0;
+            text-align: center;
+        }
 
-      /* Style the error messages */
-      ul {
-        list-style: none;
-        padding: 0;
-        color: red;
-        font-size: 14px;
-      }
+        .login-link {
+            color: #dce3ff;
+            margin-top: 20px;
+            display: block;
+        }
 
-      .login_link p {color: white}
+        .login-link a {
+            color: #88a8c7;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-      form {color: white}
-</style>
-
-
-<head><title>Sign Up</title></head>
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
 <body>
-  <h2>Sign Up</h2>
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul>{% for msg in messages %}<li>{{ msg }}</li>{% endfor %}</ul>
-    {% endif %}
-  {% endwith %}
-  <form method="POST">
-    Username: <input name='username' type='text' required><br>
-    Password: <input name='password' type="password" required><br>
-    Phone Number: <input name='number' type="text" required><br>
-    <button type="submit">Sign Up</button>
-  </form>
-  
-  <p class=".login_link">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    <div class="signup-wrapper">
+        <div class="signup-container">
+            <h2>Create Account</h2>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="error-messages">
+                        {% for msg in messages %}
+                            <p>{{ msg }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <input name="username" placeholder="Username" required>
+                <input name="password" type="password" placeholder="Password" required>
+                <input name="number" placeholder="Phone Number" required>
+                <button type="submit">Sign Up</button>
+            </form>
+
+            <p class="login-link">
+                Already have an account? <a href="{{ url_for('login') }}">Log in</a>
+            </p>
+        </div>
+    </div>
 </body>
 </html>
-

@@ -1,69 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SafeHaven Settings</title>
-<style>
-body {
-      background-color: rgb(40, 40, 43);
-      font-family: 'Trebuchet MS';
-      font-size: 30px;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      color: white
-    }
+    <title>Account Settings</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', sans-serif;
+            background-color: rgb(40, 40, 43);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: white;
+        }
 
-    h1 {
-      font-size: 50px;
-      color: rgb(252, 252, 252);
-      margin: 40px 0 20px;
-    }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
 
-    .button-container {
-      margin-top: 40px;
-    }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
 
-    .btn {
-      display: inline-block;
-      background-color: rgb(97, 103, 143);
-      color: white;
-      padding: 12px 24px;
-      margin: 10px;
-      text-decoration: none;
-      font-family: 'Trebuchet MS';
-      border-radius: 8px;
-      border: none;
-      font-size: 18px;
-      transition: background-color 0.3s ease;
-    }
+        h2 {
+            font-size: 22px;
+            margin-bottom: 30px;
+            color: #dce3ff;
+        }
 
-    .btn:hover {
-      background-color: rgb(110, 121, 172);
-    }
+        .info-card {
+            background-color: rgb(50, 50, 55);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: left;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    .logout-link {color: white;
-    font-family: 'Trebuchet MS';
-    font-size: 30px;}
-</style>
+        .info-item {
+            margin: 15px 0;
+            font-size: 18px;
+        }
 
-<body>
-<h1>SafeHaven Settings</h1>
-<h2>Welcome {{username}}</h3>
-<p>Phone Number: {{number}}</p>
+        .info-label {
+            color: #88a8c7;
+            display: inline-block;
+            width: 150px;
+        }
 
-<div class="button-container">>
-  <a class="btn" href="{{ url_for('home') }}"> Return Home </a>
-  <a class="btn" href="{{ url_for('login') }}">Logout</a>
-</div>
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
 
-</form>
+        .btn {
+            display: inline-block;
+            width: 200px;
+            padding: 14px;
+            background-color: rgb(97, 103, 143);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
 
+        .btn:hover {
+            background-color: rgb(110, 121, 172);
+            transform: translateY(-2px);
+        }
 
-</body>
+        .btn-danger {
+            background-color: #d9534f;
+        }
 
-
-
-
+        .btn-danger:hover {
+            background-color: #c9302c;
+        }
+    </style>
 </head>
+<body>
+    <div class="container">
+        <h1>Account Settings</h1>
+        <h2>Welcome, {{ username }}</h2>
 
+        <div class="info-card">
+            <div class="info-item">
+                <span class="info-label">Username:</span>
+                <span>{{ username }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Phone Number:</span>
+                <span>{{ number }}</span>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <a href="{{ url_for('home') }}" class="btn">Back to Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Log Out</a>
+        </div>
+    </div>
+</body>
 </html>

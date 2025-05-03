@@ -1,141 +1,117 @@
 <!doctype html>
 <html>
-<head><title>Login to SafeHaven</title>
-
-<style>
-    body {
-        font-family: Arial, Georgia;
-        background-color: rgb(40, 40, 43);
-        height: 100vh;
-        justify-content: center;
-        margin: 0;
-    }
-
-    .login-container {
-        background-color: rgb(40, 40, 43);
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        width: 1000px;
-        height: 600px;
-        text-align: center;
-        margin-left: 300px;
-      }
-
-      h2 {
-        font-family: 'Trebuchet MS';
-        font-size: 40px;
-        color:rgb(255, 255, 255);
-        margin-bottom: 20px;
-      }
-
-      input {
-        width: 50%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-      }
-
-      button {
-        display: block;
-        padding: 20px;
-        background-color: #88a8c7;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-      }
-
-
-      button:hover {
-        background-color: #698aaf;
-      }
-  
-
-      /* Style the error messages */
-      ul {
-        list-style: none;
-        padding: 0;
-        color: rgb(247, 245, 245);
-        font-size: 14px;
-      }
-
-      form {color: white;
-      font-size: 16px}
-
-      .signup-link {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #ffffff;
-      }
-
-      .signup-link a {
-    color: #dce3ff;
-    text-decoration: none;
-    font-weight: bold;
-      }
-
-      .signup-link a:hover {
-       text-decoration: underline;
-       color: #ffffff;
+<head>
+    <title>Login to SafeHaven</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', sans-serif;
+            background-color: rgb(40, 40, 43);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-</style>
+        .login-wrapper {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
 
+        .login-container {
+            background-color: rgb(50, 50, 55);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: rgb(60, 60, 65);
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin: 15px 0;
+            background-color: rgb(97, 103, 143);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: rgb(110, 121, 172);
+        }
+
+        .error-messages {
+            color: #ff6b6b;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .signup-link {
+            color: #dce3ff;
+            margin-top: 20px;
+            display: block;
+        }
+
+        .signup-link a {
+            color: #88a8c7;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <div class="login-container">
+    <div class="login-wrapper">
+        <div class="login-container">
+            <h2>Login to SafeHaven</h2>
 
-  <h2>Login</h2>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="error-messages">
+                        {% for msg in messages %}
+                            <p>{{ msg }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
 
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul>{% for msg in messages %}<li>{{ msg }}</li>{% endfor %}</ul>
-    {% endif %}
-  {% endwith %}
+            <form method="POST">
+                <input name="username" placeholder="Username" required>
+                <input name="password" type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
 
-
-  <form method="POST">
-    Username: <input name="username" required><br>
-    Password: <input name="password" type="password" required><br>
-
-    <button type="submit">Login</button>
-  </form>
-
-  <p class="signup-link">No account?</p>
-  <form action="{{ url_for('signup') }}">
-    <button type="submit">Create a SafeHaven Account</button>
-
-  </form>
-
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent default form submission
-        fetch("{{ url_for('login') }}", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(new FormData(this))
-        })
-        .then(response => {
-            if (response.redirected) {
-                window.location.href = response.url;
-            }
-            return response.text();
-        })
-        .then(data => {
-            if (data.includes('Invalid username or password')) {
-                alert('Login failed! Check your credentials.');
-            }
-        });
-    });
-</script>
-
-</div>
+            <p class="signup-link">
+                Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a>
+            </p>
+        </div>
+    </div>
 </body>
 </html>
-
-<p class="signup-link">No account? <a href="{{ url_for('signup') }}">Create a SafeHaven Account Here</a></p>

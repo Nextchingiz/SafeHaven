@@ -21,6 +21,27 @@ class Account:
 # stores user data as username for the key and the account class is the value
 users = {}
 
+# New functions to load users, because it didnt work
+# We just basically copy the entire dictionary, because it is easier to access that way
+def load_users():
+    """Load all users from user_data.json into the users dictionary, so the website can access them"""
+    try:
+        # Try and open it, except if there is nothing in the file, we will 
+        with open('user_data.json', 'r') as f:
+            user_data = json.load(f)
+            for username, data in user_data.items():
+                users[username] = Account(
+                    username = username,
+                    password = data['password'],
+                    email = data.get('email', ''),  # I put it for the compatibility, but it doesn't anything
+                    number = data['phone']
+                )
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass  # Start with empty users dicticonary defined right above
+
+# Load users whenever starting the program
+load_users()
+
 # Function to get all detection history for a specific user
 def get_user_detections(username):
     history_file = os.path.join(HISTORY_FOLDER, f"{username}_history.json")
@@ -44,6 +65,7 @@ def is_recent(timestamp_str):
 @app.route('/')
 def home():
     if 'username' in session:  # checks if user is logged in successfully
+        load_users()  # Refresh user data
         user = users.get(session['username'])
         if user:
             return render_template('home.html', username = user.username)
@@ -83,6 +105,9 @@ def signup():
         with open('user_data.json', 'w') as f:
             json.dump(user_data, f, indent = 4)
 
+        # Start again the dictionary whenever opening again
+        load_users()
+
         # Message telling that the registration was successful
         flash('Registration successful!')
         return redirect(url_for('login')) # Redirect to the login
@@ -97,24 +122,21 @@ def login():
         username = request.form.get('username', '').strip() # Ask for info
         password = request.form.get('password', '').strip()
         
-        # Load the user_data.json file
-        try:
-            with open('user_data.json', 'r') as f:
-                user_data = json.load(f)
-        except:
-            flash('System error') # if not, go back to the login page
-            return render_template('login.html')
+        # Refresh user data before checking
+        load_users()
 
         # Check if the user is in our "database" and the username and password are the same
-        if username in user_data and user_data[username]['password'] == password:
+        if username in users and users[username].password == password:
             session['username'] = username
+            print(f"Successful login for {username}")
             return redirect(url_for('home'))  # Go to the home page
         
         # If not, we will tell the user there was an error
         flash('Invalid username or password')
+        print(f"Failed login for {username}")
     
     # For GET requests or failed logins
-    return render_template('login.html') # Just changed this, my bad, I put thew wrong html file
+    return render_template('login.html')
 
 # Redirects to the home page
 @app.route('/logout')
@@ -127,14 +149,13 @@ def logout():
 @app.route('/settings')
 def settings():
     if 'username' in session:
+        load_users()  # Refresh user data
         user = users.get(session['username']) # Make use of the current username to display it
         if user:
             return render_template(
                 'settings.html',
                 username = user.username,
-                email = user.email,
                 number = user.number
-                # Put the necessary variables our template requires
             )
         else:
             flash("User not found. Please log in again.") 
@@ -152,14 +173,7 @@ def history():
     
     # Use the current username, to access its specific history file
     username = session['username']
-    history_file = os.path.join('Users_History', f'{username}_history.json')
-    
-    # Load detection history or create an empty list if the file doesn't exist yet
-    try:
-        with open(history_file, 'r') as f:
-            detections = json.load(f).get('detections', [])
-    except (FileNotFoundError, json.JSONDecodeError):
-        detections = []
+    detections = get_user_detections(username)
     
     # Sort by timestamp (newest first)
     detections.sort(key=lambda x: x['timestamp'], reverse = True)
@@ -171,4 +185,4 @@ def history():
 
 # Start the program
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug = True, host='0.0.0.0')  # Added host to allow network access
