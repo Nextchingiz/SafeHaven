@@ -85,6 +85,19 @@
         .login-link a:hover {
             text-decoration: underline;
         }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: rgb(60, 60, 65);
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+            
     </style>
 </head>
 <body>
@@ -106,6 +119,12 @@
                 <input name="username" placeholder="Username" required>
                 <input name="password" type="password" placeholder="Password" required>
                 <input name="number" placeholder="Phone Number" required>
+                <select name="provider" required>
+                    {% for provider in providers %}
+                        <option value="{{ provider }}">{{ provider }}</option>
+                    {% endfor %}
+                </select>
+                
                 <button type="submit">Sign Up</button>
             </form>
 
