@@ -11,11 +11,12 @@ app.secret_key = 'safehaven'
 
 # keeps users in a "database type of system", we will create a class for it
 class Account:
-    def __init__(self, username: str, password: str, email: str, number: str):
+    def __init__(self, username: str, password: str, email: str, number: str, provider: str):
         self.username = username
         self.password = password
         self.email = email
         self.number = number
+        self.provider = provider
         # Pretty self explanatory here
 
 # stores user data as username for the key and the account class is the value
@@ -35,6 +36,7 @@ def load_users():
                     password = data['password'],
                     email = data.get('email', ''),  # I put it for the compatibility, but it doesn't anything
                     number = data['phone']
+                    provider=data['provider']
                 )
     except (FileNotFoundError, json.JSONDecodeError):
         pass  # Start with empty users dicticonary defined right above
@@ -82,7 +84,7 @@ def signup():
         username = request.form['username'] # Request all this info
         password = request.form['password']
         phone = request.form['number']  # Only username/password/phone now, because the email was not functional
-
+        provider = request.form['provider'] # Added provider entry box
         # Load the existing data from the json file
         try:
             with open('user_data.json', 'r') as f:
@@ -98,7 +100,8 @@ def signup():
         # Save only these 3 fields, because we got rid of the email lately
         user_data[username] = {
             "password": password,
-            "phone": phone  # No more email
+            "phone": phone,  # No more email
+            "provider": provider # added provider
         }
 
         # Just store the information we got, the same way a in SafeHaven.py
@@ -113,7 +116,9 @@ def signup():
         return redirect(url_for('login')) # Redirect to the login
 
     # Render/start/open/load template of the sign up page (stored in the templates folder)
-    return render_template('signup.html')
+    providers = ["AT&T", "Verizon", "Sprint", "Mint Mobile", "T-Mobile", "Other"] # List of basic providers, you guys can add more if you think of any
+    return render_template('signup.html', providers=providers)
+
 
 # Route that directs the users to the to login
 @app.route('/login', methods=['GET', 'POST'])
@@ -155,7 +160,8 @@ def settings():
             return render_template(
                 'settings.html',
                 username = user.username,
-                number = user.number
+                number = user.number,
+                provider=user.provider
             )
         else:
             flash("User not found. Please log in again.") 
