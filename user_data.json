@@ -1,30 +1,7 @@
 {
     "demo": {
-        "password": "1234",
-        "phone": "323234"
-    },
-    "demo2": {
-        "password": "demo2",
-        "phone": "0000000000"
-    },
-    "user": {
-        "password": "user",
-        "phone": "0000000000"
-    },
-    "demo3": {
-        "password": "demo3",
-        "phone": "0000000000"
-    },
-    "demo4": {
-        "password": "demo4",
-        "phone": "34534534"
-    },
-    "demo5": {
-        "password": "demo5",
-        "phone": "3183946120"
-    },
-    "demo6": {
-        "password": "demo6",
-        "phone": "0000000000"
+        "password": "demo",
+        "phone": "3183946120",
+        "provider": "Mint Mobile"
     }
 }
