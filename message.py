@@ -17,16 +17,9 @@ def send_message(number: str, message: str, provider: str, sender_credentials: t
     email_message = f"Subject:{subject}\nTo:{receiver_email}\n\n{message}"
 
     context = ssl.create_default_context()
-    try:
-        with smtplib.SMTP_SSL(smtp_server, smtp_port, context = context) as email:
-            email.login(sender_email, email_password)
-            email.sendmail(sender_email, receiver_email, email_message)
-    except smtplib.SMTPAuthenticationError:
-        print("\nSMTP Authentication Error: Please verify your email credentials and ensure 'Less Secure Apps' is enabled or use an App Password")
-        raise
-    except Exception as e:
-        print(f"\nError sending message: {str(e)}")
-        raise
+    with smtplib.SMTP_SSL(smtp_server, smtp_port, context = context) as email:
+        email.login(sender_email, email_password)
+        email.sendmail(sender_email, receiver_email, email_message)
 
 # MESSAGE function that will set the text of the notification
 def MESSAGE(time: str, alert_type: str, number: str, provider: str):
@@ -34,9 +27,6 @@ def MESSAGE(time: str, alert_type: str, number: str, provider: str):
     text = f" There was a {alert_type} at {time}" # Text
     sender_credentials = ("thesafehaven0@gmail.com", "cmfb uxnk nwcn ngch") # Credentials
 
-    try:
-        send_message(number, text, provider, sender_credentials) # Use the function defined above to send the actual alert
-        print(f'\nAlert sent to ({number[0:3]}) {number[3:6]}-{number[6:10]}: "{text[1:]}" via {provider}\n')  # Display the phone number to which the message was sent
-    except Exception as e:
-        print(f"\nFailed to send alert: {str(e)}")
-        raise
+    send_message(number, text, provider, sender_credentials) # Use the function defined above to send the actual alert
+    
+    print(f'\nAlert sent to ({number[0:3]}) {number[3:6]}-{number[6:10]}: "{text[1:]}" via {provider}\n')  # Display the phone number to which the message was sent

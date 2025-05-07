@@ -217,14 +217,15 @@ def add_detection_to_history(username, detection_type):
         user_data = json.load(file)
     
     phone_number = user_data.get(username, {}).get("phone", "")
+    provider = user_data.get(username, {}).get("provider", "AT&T") # Provider variable and its default value
     
     if phone_number and len(phone_number) == 10:
-        MESSAGE(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), detection_type, phone_number)
+        MESSAGE(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), detection_type, phone_number, provider)
     else:
         print(f"Warning: Invalid phone number for user {username}. Alert not sent.")
 
     with open(history_file, "w") as file:
-        json.dump(history, file, indent=4)
+        json.dump(history, file, indent = 4)
 
 # Read the user's history
 def read_user_history(username):
