@@ -220,7 +220,12 @@ def add_detection_to_history(username, detection_type):
     provider = user_data.get(username, {}).get("provider", "AT&T") # Provider variable and its default value
     
     if phone_number and len(phone_number) == 10:
-        MESSAGE(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), detection_type, phone_number, provider)
+        MESSAGE(
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            detection_type,
+            phone_number,
+            provider # Better designed now
+        )
     else:
         print(f"Warning: Invalid phone number for user {username}. Alert not sent.")
 
@@ -298,7 +303,7 @@ def register():
     entry1.place(x = 50, y = 110)
 
     # Password
-    entry2 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Password', show = "*", font=('MS Sans Serif', 15))
+    entry2 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Password', show = "*", font = ('MS Sans Serif', 15))
     entry2.place(x = 50, y = 165)
 
     # Confirm Password
@@ -345,7 +350,7 @@ def register():
         }
         
         with open("user_data.json", "w") as file:
-            json.dump(user_data, file, indent=4)
+            json.dump(user_data, file, indent = 4)
 
         # Start user history
         history_path = os.path.join(HISTORY_FOLDER, f"{username}_history.json")
