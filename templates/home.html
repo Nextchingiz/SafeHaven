@@ -1,7 +1,11 @@
+<!-- HTML file with the home template -->
+
 <!doctype html>
 <html>
 <head>
+    <!-- Title -->
     <title>SafeHaven Dashboard</title>
+    <!-- Style for the Main Body -->
     <style>
         body {
             font-family: 'Trebuchet MS', sans-serif;
@@ -67,18 +71,22 @@
         }
     </style>
 </head>
+
+<!-- Main Body of the HTML file -->
 <body>
-    <div class="container">
+    <div class = "container"> <!-- Create a container (small box that will have information inside it) -->
         <h1>Welcome to SafeHaven</h1>
-        <h2>Hello, {{ username }}!</h2>
+        <h2>Hello, {{ username }}!</h2> <!-- Greetings -->
 
-        <div class="status-indicator"></div>
-        <p>System Status: Active</p>
+        <div class = "status-indicator"></div> <!-- Indicate the status of SafeHaven (working or not). It does not make sense really, because -->
+        <p>System Status: Active</p>         <!-- if the flask server is accessed it means it is working already, but well, looks good NGL -->
+                                             <!-- those YT videos and tutorial had to be used somehow. -->
 
-        <div class="button-container">
-            <a class="btn" href="{{ url_for('history') }}">View History</a>
-            <a class="btn" href="{{ url_for('settings') }}">Account Settings</a>
-            <a class="btn" href="{{ url_for('logout') }}">Log Out</a>
+        <!-- Define specific buttons that will be used by the user: History, Settings, Log Out -->
+        <div class = "button-container">
+            <a class = "btn" href = "{{ url_for('history') }}">View History</a>
+            <a class = "btn" href = "{{ url_for('settings') }}">Account Settings</a>
+            <a class = "btn" href = "{{ url_for('logout') }}">Log Out</a>
         </div>
     </div>
 </body>

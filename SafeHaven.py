@@ -16,6 +16,7 @@ import time
 import RPi.GPIO as GPIO
 from gpiozero import Buzzer
 from message import MESSAGE
+from providers import PROVIDERS # Import the providers we got, and access the keys, as it is written as a dictionary
 
 ################
 ####HARDWARE####
@@ -284,28 +285,43 @@ def register():
     l1 = customtkinter.CTkLabel(master = app, image = img1)
     l1.pack()
 
-    frame = customtkinter.CTkFrame(master = l1, width = 320, height = 450, corner_radius = 45)
+    frame = customtkinter.CTkFrame(master = l1, width = 320, height = 500, corner_radius = 45)
     frame.place(relx = 0.5, rely = 0.5, anchor = tkinter.CENTER)
 
     customtkinter.CTkLabel(master = frame, text = "Register in SafeHaven", font = ('MS Sans Serif', 28)).place(x = 18, y = 45)
 
+    # Information entries
+
+    # Username
     entry1 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Username', font = ('MS Sans Serif', 15))
     entry1.place(x = 50, y = 110)
 
-    entry2 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Password', show = "*", font = ('MS Sans Serif', 15))
+    # Password
+    entry2 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Password', show = "*", font=('MS Sans Serif', 15))
     entry2.place(x = 50, y = 165)
 
+    # Confirm Password
     entry3 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Confirm Password', show = "*", font = ('MS Sans Serif', 15))
     entry3.place(x = 50, y = 220)
 
+    # Phone Number
     entry4 = customtkinter.CTkEntry(master = frame, width = 220, placeholder_text = 'Phone Number', font = ('MS Sans Serif', 15))
     entry4.place(x = 50, y = 275)
+
+    # Provider dropdown addition
+    providers = list(PROVIDERS.keys()) # Just access the keys from the dictionary 
+    provider_var = tkinter.StringVar(value = providers[0])  # Set the default value to the first key
+
+    # Add it to the GUI
+    provider_menu = customtkinter.CTkOptionMenu(master = frame, width = 220, variable = provider_var, values = providers, font = ('MS Sans Serif', 15))
+    provider_menu.place(x = 50, y = 330)
 
     def submit_registration():
         username = entry1.get()
         password = entry2.get()
         confirm_password = entry3.get()
         phone = entry4.get()
+        provider = provider_var.get() # Add
 
         if not username or not password or not confirm_password or not phone:
             messagebox.showerror("Error", "All fields are required!")
@@ -320,10 +336,17 @@ def register():
             messagebox.showerror("Error", "Username already exists!")
             return
 
-        user_data[username] = {"password": password, "phone": phone}
+        # Save with new provider information
+        user_data[username] = {
+            "password": password,
+            "phone": phone,
+            "provider": provider
+        }
+        
         with open("user_data.json", "w") as file:
             json.dump(user_data, file, indent=4)
 
+        # Start user history
         history_path = os.path.join(HISTORY_FOLDER, f"{username}_history.json")
         with open(history_path, "w") as file:
             json.dump({"detections": []}, file)
@@ -332,7 +355,8 @@ def register():
         app.destroy()
         login()
 
-    customtkinter.CTkButton(master = frame, width = 220, text = "Register", command = submit_registration, corner_radius = 6, font = ('MS Sans Serif', 15)).place(x = 50, y = 330)
+    # Register button moved to the bottom
+    customtkinter.CTkButton(master = frame, width = 220, text = "Register", command = submit_registration, corner_radius = 6, font = ('MS Sans Serif', 15)).place(x = 50, y = 385)
 
     app.mainloop()
 

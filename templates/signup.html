@@ -1,7 +1,11 @@
+<!-- HTML file with the signup template -->
+
 <!doctype html>
 <html>
 <head>
+    <!-- Title -->
     <title>Sign Up for SafeHaven</title>
+    <!-- Style for the Main Body -->
     <style>
         body {
             font-family: 'Trebuchet MS', sans-serif;
@@ -100,14 +104,17 @@
             
     </style>
 </head>
-<body>
-    <div class="signup-wrapper">
-        <div class="signup-container">
-            <h2>Create Account</h2>
 
+<!-- Main Body of the HTML file -->
+<body>
+    <div class = "signup-wrapper">
+        <div class = "signup-container">
+            <h2>Create Account</h2> <!-- Title -->
+
+            <!-- Handle Error Messages -->
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                    <div class="error-messages">
+                    <div class = "error-messages">
                         {% for msg in messages %}
                             <p>{{ msg }}</p>
                         {% endfor %}
@@ -115,21 +122,24 @@
                 {% endif %}
             {% endwith %}
 
-            <form method="POST">
-                <input name="username" placeholder="Username" required>
-                <input name="password" type="password" placeholder="Password" required>
-                <input name="number" placeholder="Phone Number" required>
-                <select name="provider" required>
+            <!-- Form asking for the user info -->
+            <form method = "POST">
+                <input name = "username" placeholder = "Username" required>
+                <input name = "password" type = "password" placeholder = "Password" required>
+                <input name = "number" placeholder = "Phone Number" required>
+                <select name = "provider" required> <!-- Show the dropdown with the different provider options -->
                     {% for provider in providers %}
-                        <option value="{{ provider }}">{{ provider }}</option>
+                        <option value = "{{ provider }}">{{ provider }}</option>
                     {% endfor %}
                 </select>
                 
+                <!-- Submit information button -->
                 <button type="submit">Sign Up</button>
             </form>
-
-            <p class="login-link">
-                Already have an account? <a href="{{ url_for('login') }}">Log in</a>
+            
+            <!-- What if the user already has an account? -->
+            <p class = "login-link">
+                Already have an account? <a href = "{{ url_for('login') }}">Log in</a>
             </p>
         </div>
     </div>

@@ -1,7 +1,11 @@
+<!-- HTML file with the login template -->
+
 <!doctype html>
 <html>
 <head>
+    <!-- Title -->
     <title>Login to SafeHaven</title>
+    <!-- Style for the Main Body -->
     <style>
         body {
             font-family: 'Trebuchet MS', sans-serif;
@@ -87,14 +91,16 @@
         }
     </style>
 </head>
+
+<!-- Main Body of the HTML file -->
 <body>
-    <div class="login-wrapper">
-        <div class="login-container">
-            <h2>Login to SafeHaven</h2>
+    <div class = "login-wrapper">
+        <div class = "login-container">
+            <h2>Login to SafeHaven</h2> <!-- Title -->
 
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                    <div class="error-messages">
+                    <div class = "error-messages">
                         {% for msg in messages %}
                             <p>{{ msg }}</p>
                         {% endfor %}
@@ -102,14 +108,16 @@
                 {% endif %}
             {% endwith %}
 
-            <form method="POST">
-                <input name="username" placeholder="Username" required>
-                <input name="password" type="password" placeholder="Password" required>
-                <button type="submit">Login</button>
+            <!-- Form asking for user info -->
+            <form method = "POST">
+                <input name = "username" placeholder = "Username" required>
+                <input name = "password" type = "password" placeholder = "Password" required>
+                <button type = "submit">Login</button> <!-- Button to submit info -->
             </form>
 
-            <p class="signup-link">
-                Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a>
+            <!-- What if the user does not have an account? -->
+            <p class = "signup-link">
+                Don't have an account? <a href = "{{ url_for('signup') }}">Sign up</a>
             </p>
         </div>
     </div>

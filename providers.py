@@ -1,3 +1,5 @@
+# List of all of the available providers we have
+
 PROVIDERS = {
     "AT&T": {"sms": "txt.att.net", "mms": "mms.att.net", "mms_support": True},
     "Boost Mobile": {

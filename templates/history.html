@@ -1,7 +1,11 @@
+<!-- HTML file with the history template -->
+
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Title -->
     <title>Detection History</title>
+    <!-- Style for the main body -->
     <style>
         body {
             font-family: 'Trebuchet MS', sans-serif;
@@ -73,33 +77,39 @@
         }
     </style>
 </head>
+
+<!-- Main body of the HTML file -->
 <body>
-    <div class="container">
+    <div class = "container">
+
+        <!-- Detection history title and section -->
         <h1>Detection History</h1>
-        
-        {% if detections %}
-            <table class="history-table">
-                <thead>
+
+        <!-- Display these detections -->
+        {% if detections %} <!-- Check if there are any detections stored in our list from app.py that already accesses the specific user history file -->
+            <table class = "history-table"> <!-- Table with 2 different columns -->
+                <thead> <!-- Head of the table -->
                     <tr>
-                        <th>Timestamp</th>
-                        <th>Event Type</th>
+                        <th>Timestamp</th> <!-- 1st column with the specific time -->
+                        <th>Event Type</th> <!-- 2nd column with the type of detection -->
                     </tr>
                 </thead>
-                <tbody>
-                    {% for detection in detections %}
-                        <tr class="{% if detection.is_recent %}recent{% endif %}">
+                <tbody> <!-- Body of the table -->
+                    {% for detection in detections %} <!-- Treat each detection separately -->
+                        <!-- Define a special "is_recent" class that checks for recent detections (< 5 minutes) -->
+                        <tr class = "{% if detection.is_recent %}recent{% endif %}"> 
                             <td>{{ detection.timestamp }}</td>
                             <td>{{ detection.type }}</td>
-                        </tr>
+                        </tr> <!-- This will appear with a red color over them, to kinda mark them as special, and new -->
                     {% endfor %}
                 </tbody>
             </table>
-        {% else %}
-            <p class="no-history">No detection history found</p>
+        {% else %} <!-- If there are no detections, just say that there is nothing in the history -->
+            <p class = "no-history">No detection history found</p>
         {% endif %}
 
-        <div class="btn-container">
-            <a href="{{ url_for('home') }}" class="btn">Back to Dashboard</a>
+        <div class = "btn-container"> <!-- Button to go back to the dashboard -->
+            <a href = "{{ url_for('home') }}" class="btn">Back to Dashboard</a>
         </div>
     </div>
 </body>

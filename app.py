@@ -4,6 +4,7 @@ import json # json files to be accessed for info
 import os # Same, json files thing
 from datetime import datetime # Time
 from SafeHaven import HISTORY_FOLDER  # Import from the main program the history folder variable
+from providers import PROVIDERS # Import the list of providers
 
 # Define the app
 app = Flask(__name__)
@@ -35,8 +36,8 @@ def load_users():
                     username = username,
                     password = data['password'],
                     email = data.get('email', ''),  # I put it for the compatibility, but it doesn't anything
-                    number = data['phone']
-                    provider=data['provider']
+                    number = data['phone'],
+                    provider = data['provider']
                 )
     except (FileNotFoundError, json.JSONDecodeError):
         pass  # Start with empty users dicticonary defined right above
@@ -116,9 +117,8 @@ def signup():
         return redirect(url_for('login')) # Redirect to the login
 
     # Render/start/open/load template of the sign up page (stored in the templates folder)
-    providers = ["AT&T", "Verizon", "Sprint", "Mint Mobile", "T-Mobile", "Other"] # List of basic providers, you guys can add more if you think of any
-    return render_template('signup.html', providers=providers)
-
+    providers = list(PROVIDERS.keys())  # Added all of the provider from the file providers.py
+    return render_template('signup.html', providers = providers)
 
 # Route that directs the users to the to login
 @app.route('/login', methods=['GET', 'POST'])
@@ -161,7 +161,7 @@ def settings():
                 'settings.html',
                 username = user.username,
                 number = user.number,
-                provider=user.provider
+                provider = user.provider
             )
         else:
             flash("User not found. Please log in again.") 
@@ -181,14 +181,14 @@ def history():
     username = session['username']
     detections = get_user_detections(username)
     
-    # Sort by timestamp (newest first)
+    # Sort them by timestamp (newest first)
     detections.sort(key=lambda x: x['timestamp'], reverse = True)
     for detection in detections:
         detection['is_recent'] = is_recent(detection['timestamp'])
     
     # Render the history template we got in the templates file
-    return render_template('history.html', detections=detections)
+    return render_template('history.html', detections = detections)
 
 # Start the program
 if __name__ == '__main__':
-    app.run(debug = True, host='0.0.0.0')  # Added host to allow network access
+    app.run(debug = True, host = '0.0.0.0')  # Added host to allow network access
