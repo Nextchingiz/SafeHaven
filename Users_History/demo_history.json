@@ -1,1 +1,120 @@
-{"detections": []}
+{
+    "detections": [
+        {
+            "timestamp": "2025-05-07 20:21:31",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:21:34",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:21:36",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:21:39",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:21:41",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:21:44",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:25:29",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:25:32",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:25:35",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:25:37",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:25:40",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:25:42",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:25:44",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:25:47",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:25:56",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:25:59",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:26:01",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 20:26:09",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:29:10",
+            "type": "Motion Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:29:14",
+            "type": "Motion Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:29:18",
+            "type": "Motion Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:29:29",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:29:38",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:48:28",
+            "type": "Motion Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:48:32",
+            "type": "Motion Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:48:38",
+            "type": "Motion Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:48:44",
+            "type": "Motion Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:48:48",
+            "type": "Ultrasonic Detection"
+        },
+        {
+            "timestamp": "2025-05-07 21:48:50",
+            "type": "Motion Detection"
+        }
+    ]
+}

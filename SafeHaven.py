@@ -145,7 +145,7 @@ def monitor():
                     alarm()
 
                 distance = get_distance(ULTRASONIC_1_TRIGGER, ULTRASONIC_1_ECHO)
-                if distance < 10:
+                if distance < 25:
                     print("Ultrasonic sensor detected something!")
                     add_detection_to_history(current_user, "Ultrasonic Detection")
                     alarm()
@@ -291,10 +291,10 @@ def register():
     l1 = customtkinter.CTkLabel(master = app, image = img1)
     l1.pack()
 
-    frame = customtkinter.CTkFrame(master = l1, width = 320, height = 500, corner_radius = 45)
+    frame = customtkinter.CTkFrame(master = l1, width = 320, height = 500, corner_radius = 45, border_width = 5)
     frame.place(relx = 0.5, rely = 0.5, anchor = tkinter.CENTER)
 
-    customtkinter.CTkLabel(master = frame, text = "Register in SafeHaven", font = ('MS Sans Serif', 28)).place(x = 18, y = 45)
+    customtkinter.CTkLabel(master = frame, text = "Register in SafeHaven", font = ('MS Sans Serif', 26)).place(x = 18, y = 45)
 
     # Information entries
 
@@ -361,8 +361,15 @@ def register():
         app.destroy()
         login()
 
+    def back_to_login():
+        app.destroy()
+        login()
+
     # Register button moved to the bottom
     customtkinter.CTkButton(master = frame, width = 220, text = "Register", command = submit_registration, corner_radius = 6, font = ('MS Sans Serif', 15)).place(x = 50, y = 385)
+
+    # Button to go back to the Log In page
+    customtkinter.CTkButton(master = frame, width = 220, text = "Already have an Account?", command = back_to_login, corner_radius = 6, font = ('MS Sans Serif', 15)).place(x = 50, y = 440)
 
     app.mainloop()
 
