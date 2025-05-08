@@ -5,7 +5,8 @@ from providers import PROVIDERS
 
 # Send Message function
 def send_message(number: str, message: str, provider: str, sender_credentials: tuple, subject: str = "SafeHaven Update", smtp_server: str = "smtp.gmail.com", smtp_port: int = 465):
-    sender_email, email_password = sender_credentials
+    sender_email = "thesafehaven0@gmail.com"
+    email_password = "cmfb uxnk nwcn ngch"
 
     # Get the providers info from the providers.py file
     provider_info = PROVIDERS.get(provider)
