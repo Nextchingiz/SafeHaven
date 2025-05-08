@@ -5,8 +5,7 @@ from providers import PROVIDERS
 
 # Send Message function
 def send_message(number: str, message: str, provider: str, sender_credentials: tuple, subject: str = "SafeHaven Update", smtp_server: str = "smtp.gmail.com", smtp_port: int = 465):
-    sender_email = "thesafehaven0@gmail.com"
-    email_password = "cmfbuxnknwcnngch"
+    sender_email, email_password = sender_credentials
 
     # Get the providers info from the providers.py file
     provider_info = PROVIDERS.get(provider)
@@ -26,7 +25,7 @@ def send_message(number: str, message: str, provider: str, sender_credentials: t
 def MESSAGE(time: str, alert_type: str, number: str, provider: str):
     
     text = f" There was a {alert_type} at {time}" # Text
-    sender_credentials = ("thesafehaven0@gmail.com", "cmfbuxnknwcnngch") # Credentials
+    sender_credentials = ("thesafehaven0@gmail.com", "grvn aigq hsnf cltn") # Credentials
 
     send_message(number, text, provider, sender_credentials) # Use the function defined above to send the actual alert
     
