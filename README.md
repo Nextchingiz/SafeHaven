@@ -38,3 +38,10 @@ The authors of this project are Louisiana Tech University students from the clas
 ## Information on the repository
 
 This repository contains all the files related to the development of the Freshman CS Project.
+
+## Disclaimer: Use of AI
+
+AI was used at some points of the development: 
+- Implementation of JavaScript in the Flask website functionalities
+- Logotype of SafeHaven
+- Json files manipulation
